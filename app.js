@@ -7,7 +7,7 @@ var click =0;
 let xAttempts =[]
 let oAttempts =[]
 
-let whoWon = 0;
+let wonTheGame = 0;
 // console.log(box)
 
 let winningCombination = [ 
@@ -18,15 +18,8 @@ let winningCombination = [
     [1,4,7],
     [2,5,8],
     [0,4,8],
-    [2,4,6]]
-
-for(let i=0;i<winningCombination.length;i++){
-    for(let j=0;j<winningCombination[i].length;j++){
-        // console.log(winningCombination[i][j])
-
-    }
-}
-
+    [2,4,6]
+]
 //iteration 2: onclick function
 
 box.forEach((el,i,arr) => {
@@ -38,7 +31,62 @@ box.forEach((el,i,arr) => {
 
 function handleClick(event){
     // console.log(event.target.id)
-    let i =e.target.id
+    let i =event.target.id
     const p = document.createElement("p")
-    message.append(p)
+    p.setAttribute("id",'text')
+    box[parseInt(i)-1].append(p)
+    //if my click is even or odd
+    if(click%2==0){
+        p.innerHTML= "X"
+        p.style.color = '#FAB201'
+        xAttempts.push(parseInt(i-1))
+        Declareresult(winningCombination,xAttempts,"X")
+    }
+    else{
+        p.innerHTML = "O"
+        p.style.color = '#FAB201'
+        oAttempts.push(parseInt(i-1))
+        Declareresult(winningCombination,oAttempts,"O")
+    }
+    // console.log(xAttempts)
+    // console.log(oAttempts)
+    click++
+    //condition for the tie
+    if(click == 9 && wonTheGame ==0){
+        result.style.visibility = 'visible'
+        message.innerHTML = "It's a Tie"
+    }
+}
+
+// iteration 3: result function
+function Declareresult(winningCombination,attempts,player){
+    let count =0
+    let checker = []
+    for(let i=0;i<winningCombination.length;i++){
+        if(Array.isArray(winningCombination[i])){
+            Declareresult(winningCombination[i],attempts,player);
+
+        }else{
+            if(attempts.includes(winningCombination[i])){
+                checker.push(true)
+                count++
+            }
+            else{
+                checker.push(false)
+            }
+        }
+    }
+    if(checker.every(check=> check===true)&& count>2){
+        result.style.visibility = 'visible'
+        message.innerHTML = "The winner is"+ player +"!"
+        wonTheGame =1
+
+
+    }
+}
+// iteration 4: restart function
+playAgain.onclick = ()=>{
+    // location.href = 'index.html'
+     history.go(0)
+
 }
