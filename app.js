@@ -1,7 +1,13 @@
-const box = document.getElementsByClassName("box")
+const box = document.querySelectorAll(".box")
 const result = document.getElementById("result")
 const message = document.getElementById("message")
 const playAgain = document.getElementById("button")
+
+var click =0;
+let xAttempts =[]
+let oAttempts =[]
+
+let whoWon = 0;
 // console.log(box)
 
 let winningCombination = [ 
@@ -21,3 +27,18 @@ for(let i=0;i<winningCombination.length;i++){
     }
 }
 
+//iteration 2: onclick function
+
+box.forEach((el,i,arr) => {
+    // console.log(el)
+    // el.onClick = handleClick
+    el.addEventListener("click",handleClick)
+
+});
+
+function handleClick(event){
+    // console.log(event.target.id)
+    let i =e.target.id
+    const p = document.createElement("p")
+    message.append(p)
+}
